@@ -24,7 +24,7 @@
     $.fn.emulateTransitionEnd = function (duration) {
         var called = false
         var $el = this
-        $(this).one('bsTransitionEnd', function () {
+        $(this).one('mysliderTransitionEnd', function () {
             called = true
         })
         var callback = function () {
@@ -39,7 +39,7 @@
 
     if (!$.support.transition) return
 
-    $.event.special.bsTransitionEnd = {
+    $.event.special.mysliderTransitionEnd = {
         bindType: $.support.transition.end,
         delegateType: $.support.transition.end,
         handle: function (e) {
@@ -122,11 +122,11 @@
         var that = this
         var activeIndex = this.getItemIndex(this.$active = this.$element.find('.item.active'))
 
-        if (pos > (this.$items.length - 1) || pos < 0) return
+        if (pos > (this.$items.length - 1) || pos < 0) return;
 
-        if (this.sliding)       return this.$element.one('slid.myslider', function () {
-            that.to(pos)
-        }) // yes, "slid"
+
+        if (this.sliding) return this.$element.one('slid.myslider', function () {that.to(pos);})
+
         if (activeIndex == pos) return this.pause().cycle()
 
         return this.slide(pos > activeIndex ? 'next' : 'prev', this.$items.eq(pos))
@@ -190,7 +190,7 @@
             $active.addClass(direction)
             $next.addClass(direction)
             $active
-                .one('bsTransitionEnd', function () {
+                .one('mysliderTransitionEnd', function () {
                     $next.removeClass([type, direction].join(' ')).addClass('active')
                     $active.removeClass(['active', direction].join(' '))
                     that.sliding = false
