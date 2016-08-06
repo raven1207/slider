@@ -2,6 +2,7 @@
  * Created by richardgong on 8/7/16.
  */
 (function ($) {
+
     function transitionEnd() {
         var el = document.createElement('div')
         var transEndEventNames = {
@@ -211,7 +212,7 @@
     }
 
 
-    function Plugin(option) {
+    function SliderPlugin(option) {
         return this.each(function () {
             var $this = $(this)
             var data = $this.data('myslider')
@@ -222,14 +223,14 @@
             if (typeof option == 'number') data.to(option)
             else if (action) data[action]()
             else if (options.interval) data.pause().cycle()
-        })
+
+
+            $this.on('click', '[data-slide]', clickHandler).on('click', '[data-slide-to]', clickHandler)
+
+        });
     }
 
-
-    $.fn.myslider = Plugin
-
-
-    var clickHandler = function (e) {
+    function clickHandler(e) {
         var href
         var $this = $(this)
         var $target = $((href = $this.attr('href')))
@@ -238,7 +239,7 @@
         var slideIndex = $this.attr('data-slide-to');
         if (slideIndex) options.interval = false
 
-        Plugin.call($target, options)
+        SliderPlugin.call($target, options)
 
         if (slideIndex) {
             $target.data('myslider').to(slideIndex)
@@ -247,10 +248,7 @@
         e.preventDefault()
     }
 
-    $(document)
-        .on('click', '[data-slide]', clickHandler)
-        .on('click', '[data-slide-to]', clickHandler)
-
+    $.fn.myslider = SliderPlugin
 
 }(jQuery));
 
