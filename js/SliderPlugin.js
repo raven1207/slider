@@ -324,8 +324,8 @@
             }
 
 
-            $this.find('.direction-ctrl').on('click', clickHandler);
-            $this.find('.slider-ctr').on('click', clickHandler);
+            $this.find('.direction-ctrl,.slider-ctr').on('click', clickHandler);
+
 
         });
     }
