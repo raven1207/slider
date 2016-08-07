@@ -301,31 +301,6 @@
              * @param e
              */
 
-            function clickHandler(e) {
-                var $this = $(this);
-
-                if (!containaier.hasClass('myslider')) return
-                var options = $.extend({}, containaier.data(), $this.data());
-
-                /**
-                 * 用于区分是点击控制点,还是,左右方向
-                 */
-
-                var slideIndex = $(this).hasClass('slider-ctr') && $this.index();
-
-                if (slideIndex) options.interval = false
-
-                SliderPlugin.call(containaier, options);
-
-                if (slideIndex) {
-                    containaier.data('myslider').to(slideIndex)
-                }
-                e.preventDefault();
-            }
-
-
-            $this.find('.direction-ctrl,.slider-ctr').on('click', clickHandler);
-
 
         });
     }
@@ -337,6 +312,32 @@
      */
 
     $.fn.myslider = SliderPlugin
+
+
+    function clickHandler(e) {
+        var $this = $(this);
+        var containaier = $($this.data('slidercontaier'));
+        if (!containaier.hasClass('myslider')) return
+        var options = $.extend({}, containaier.data(), $this.data());
+
+        /**
+         * 用于区分是点击控制点,还是,左右方向
+         */
+
+        var slideIndex = $(this).hasClass('slider-ctr') && $this.index();
+        console.log('slideIndex:', slideIndex);
+        if (slideIndex) options.interval = false
+
+        SliderPlugin.call(containaier, options);
+
+        if (slideIndex !== false) {
+            containaier.data('myslider').to(slideIndex)
+        }
+        e.preventDefault();
+    }
+
+
+    $(document).on('click', "[data-slidercontaier]", clickHandler);
 
 }(jQuery));
 

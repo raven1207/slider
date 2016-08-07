@@ -7,9 +7,9 @@
 
 <div id="test-slider" class="myslider slide">
     <div class="myslider-indicators">
-        <div class="slider-ctr active"></div>
-        <div class="slider-ctr"></div>
-        <div class="slider-ctr"></div>
+        <div class="slider-ctr active" data-slidercontaier="#test-slider"></div>
+        <div class="slider-ctr" data-slidercontaier="#test-slider"></div>
+        <div class="slider-ctr" data-slidercontaier="#test-slider"></div>
     </div>
 
     <div class="myslider-inner">
@@ -25,12 +25,12 @@
 
     </div>
 
-    <span class="left myslider-control direction-ctrl" data-slide="prev">
+    <span class="left myslider-control direction-ctrl" data-slidercontaier="#test-slider" data-slide="prev">
         <span class="glyphicon glyphicon-chevron-left"></span>
 
     </span>
 
-    <span class="right myslider-control direction-ctrl" data-slide="next">
+    <span class="right myslider-control direction-ctrl" data-slidercontaier="#test-slider" data-slide="next">
         <span class="glyphicon glyphicon-chevron-right"></span>
     </span>
 </div>
