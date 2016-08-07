@@ -7,7 +7,7 @@
      * 检测是否支持css3的工具对象,如果有,那么,就用css3实现slider效果。
      * @returns {*}
      */
-    var transition = (function transitionEnd() {
+    var transition = (function() {
         var el = document.createElement('div')
         var transEndEventNames = {
             WebkitTransition: 'webkitTransitionEnd',
@@ -42,11 +42,6 @@
         setTimeout(callback, duration)
         return this
     }
-
-    /**
-     * 导出工具方法
-     * @type {any}
-     */
 
 
     /**
