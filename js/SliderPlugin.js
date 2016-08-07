@@ -169,7 +169,9 @@
         if (pos > (this.$items.length - 1) || pos < 0) return;
 
 
-        if (this.sliding) return this.$element.one('slid.myslider', function () {that.to(pos);})
+        if (this.sliding) return this.$element.one('slid.myslider', function () {
+            that.to(pos);
+        })
 
         if (activeIndex == pos) return this.pause().cycle()
 
@@ -282,7 +284,8 @@
          * this.each主要是为了实现在同一个页面上,多处调用插件
          */
         return this.each(function () {
-            var $this = $(this)
+            var $this = $(this);
+            var containaier = $this;
             var data = $this.data('myslider')
             var options = $.extend({}, SliderContructor.DEFAULTS, $this.data(), typeof option == 'object' && option)
             var action = typeof option == 'string' ? option : options.slide
@@ -293,32 +296,40 @@
             else if (options.interval) data.pause().cycle()
 
 
-            $this.on('click', '[data-slide]', clickHandler).on('click', '[data-slide-to]', clickHandler)
+            /**
+             * 点击左右方向键事件的,处理业务接口
+             * @param e
+             */
+
+            function clickHandler(e) {
+                var $this = $(this);
+
+                if (!containaier.hasClass('myslider')) return
+                var options = $.extend({}, containaier.data(), $this.data());
+
+                /**
+                 * 用于区分是点击控制点,还是,左右方向
+                 */
+
+                var slideIndex = $(this).hasClass('slider-ctr') && $this.index();
+
+                if (slideIndex) options.interval = false
+
+                SliderPlugin.call(containaier, options);
+
+                if (slideIndex) {
+                    containaier.data('myslider').to(slideIndex)
+                }
+                e.preventDefault();
+            }
+
+
+            $this.find('.direction-ctrl').on('click', clickHandler);
+            $this.find('.slider-ctr').on('click', clickHandler);
 
         });
     }
 
-    /**
-     * 点击左右方向键事件的,处理业务接口
-     * @param e
-     */
-    function clickHandler(e) {
-        var href
-        var $this = $(this)
-        var $target = $((href = $this.attr('href')))
-        if (!$target.hasClass('myslider')) return
-        var options = $.extend({}, $target.data(), $this.data());
-        var slideIndex = $this.attr('data-slide-to');
-        if (slideIndex) options.interval = false
-
-        SliderPlugin.call($target, options)
-
-        if (slideIndex) {
-            $target.data('myslider').to(slideIndex)
-        }
-
-        e.preventDefault();
-    }
 
     /**
      * 导出插件myslider到jquery上
@@ -328,7 +339,6 @@
     $.fn.myslider = SliderPlugin
 
 }(jQuery));
-
 
 
 /**

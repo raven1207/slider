@@ -4,9 +4,7 @@
     padding: 0;
 }
 
-ol, li {
-    list-style: none;
-}
+
 
 @font-face {
     font-family: 'Glyphicons Halflings';
@@ -230,7 +228,7 @@ ol, li {
     padding-top: 7px;
 }
 
-.myslider-indicators li {
+.myslider-indicators div {
     display: inline-block;
     width: 20px;
     height: 20px;
