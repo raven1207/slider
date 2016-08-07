@@ -4,10 +4,10 @@
 (function ($) {
 
     /**
-     * 检测是否支持css3的工具方法,如果有,那么,就用css3实现slider效果。
+     * 检测是否支持css3的工具对象,如果有,那么,就用css3实现slider效果。
      * @returns {*}
      */
-    function transitionEnd() {
+    var transition = (function transitionEnd() {
         var el = document.createElement('div')
         var transEndEventNames = {
             WebkitTransition: 'webkitTransitionEnd',
@@ -23,7 +23,7 @@
         }
 
         return false
-    }
+    })();
 
     /**
      * 用于模拟动画结束,而自定义事件
@@ -37,7 +37,7 @@
             called = true
         })
         var callback = function () {
-            if (!called) $($el).trigger($.support.transition.end)
+            if (!called) $($el).trigger(transition.end)
         }
         setTimeout(callback, duration)
         return this
@@ -47,15 +47,15 @@
      * 导出工具方法
      * @type {any}
      */
-    $.support.transition = transitionEnd()
+
 
     /**
      * 把自定义事件放到jquery对象里,以方便在各个地方可以方便使用
      * @type {{bindType: (any), delegateType: (any), handle: $.event.special.mysliderTransitionEnd.handle}}
      */
     $.event.special.mysliderTransitionEnd = {
-        bindType: $.support.transition.end,
-        delegateType: $.support.transition.end,
+        bindType: transition.end,
+        delegateType: transition.end,
         handle: function (e) {
             if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
         }
@@ -186,8 +186,8 @@
     SliderContructor.prototype.pause = function (e) {
         e || (this.paused = true)
 
-        if (this.$element.find('.next, .prev').length && $.support.transition) {
-            this.$element.trigger($.support.transition.end)
+        if (this.$element.find('.next, .prev').length && transition) {
+            this.$element.trigger(transition.end)
             this.cycle(true)
         }
 
@@ -245,7 +245,7 @@
 
         var slidEvent = $.Event('slid.myslider', {relatedTarget: relatedTarget, direction: direction});
 
-        if ($.support.transition && this.$element.hasClass('slide')) {
+        if (transition && this.$element.hasClass('slide')) {
             $next.addClass(type)
             $next[0].offsetWidth
             $active.addClass(direction)
@@ -335,7 +335,6 @@
         }
         e.preventDefault();
     }
-
 
     $(document).on('click', "[data-slidercontaier]", clickHandler);
 
